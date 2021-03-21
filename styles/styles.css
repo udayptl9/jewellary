@@ -1,0 +1,41 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.main {
+    display: grid;
+    grid-template-rows: 50px auto;
+    grid-template-areas: "navbar" "container";
+}
+
+.navbar {
+    grid-area: navbar;
+}
+
+.navbar ul  li{
+    float: right;
+    margin: 15px;
+}
+
+.container {
+    grid-area: container;
+}
+
+.materials_main {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas: "form display";
+}
+
+.materials_add_form {
+    grid-area: form;
+}
+
+.materials_display {
+    grid-area: display;
+}
+
+table {
+    border-collapse: collapse;
+}
