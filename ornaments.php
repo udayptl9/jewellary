@@ -53,7 +53,7 @@
                     </form>
                 </div>
                 <div class='materials_display'>
-                    <h3>Materials</h3>
+                    <h3>Ornaments</h3>
                     <div class='display_table_div'>
                         <table border='1'>
                             <thead>
@@ -139,29 +139,27 @@
                         console.log("Getting Ornaments");
                     }, success: function(response, status) {
                         if(status == 'success') {
-                            if(status == 'success') {
-                                try {
-                                    const response_JSON = JSON.parse(response);
-                                    if(response_JSON.status) {
-                                        let index = 1;
-                                        ornamentsData = response_JSON.data;
-                                        ornamentsData.forEach(ornament=>{
-                                            document.querySelector('.materials_body').innerHTML += `
-                                                <tr>
-                                                    <td>${index}</td>
-                                                    <td>${ornament.ornament_name}</td>
-                                                    <td>${ornament.ornament_description}</td>
-                                                    <td>${getMaterialName(ornament.material_id)}</td>
-                                                    <td class='editable'>${ornament.ornament_weight}</td>
-                                                    <td><button onclick='updateOrnament(${ornament.ornament_id}, ${index})'>Update</button> <button onclick='deleteOrnament(${ornament.ornament_id})'>Delete</button></td>
-                                                </tr>
-                                            `;
-                                            index++;
-                                        })
-                                    }
-                                } catch (error) {
-                                    console.log(error, response);
+                            try {
+                                const response_JSON = JSON.parse(response);
+                                if(response_JSON.status) {
+                                    let index = 1;
+                                    ornamentsData = response_JSON.data;
+                                    ornamentsData.forEach(ornament=>{
+                                        document.querySelector('.materials_body').innerHTML += `
+                                            <tr>
+                                                <td>${index}</td>
+                                                <td>${ornament.ornament_name}</td>
+                                                <td>${ornament.ornament_description}</td>
+                                                <td>${getMaterialName(ornament.material_id)}</td>
+                                                <td class='editable'>${ornament.ornament_weight}</td>
+                                                <td><button onclick='updateOrnament(${ornament.ornament_id}, ${index})'>Update</button> <button onclick='deleteOrnament(${ornament.ornament_id})'>Delete</button></td>
+                                            </tr>
+                                        `;
+                                        index++;
+                                    })
                                 }
+                            } catch (error) {
+                                console.log(error, response);
                             }
                         }
                     }
