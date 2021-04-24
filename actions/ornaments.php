@@ -24,7 +24,7 @@
             $material_id = $_POST['material_id'];
             $sql = "INSERT INTO `ornaments`(`material_id`, `ornament_name`, `ornament_description`, `ornament_weight`) VALUES ('$material_id','$ornament_name','$ornament_description', '$ornament_weight')";
             $result = mysqli_query($conn, $sql);
-            $response = array('status'=> $result, 'data' => [$ornament_name, $ornament_weight]);
+            $response = array('status'=> $result, 'data' => [$ornament_name, $ornament_weight], 'error' => mysqli_error($conn));
             print_r(json_encode($response));
         } else if($action == 'deleteOrnament') {
             $id = $_POST['id'];
