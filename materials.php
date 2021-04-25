@@ -17,6 +17,45 @@
 </style>
 <body>
     <div class='main'>
+    <div class="topnav navbar">
+            <a href="index.php">Home</a>
+            <a href="materials.php">Materials</a>
+            <a href="ornaments.php">Ornaments</a>
+        </div>
+        <div class='container'>
+            <div class="wrapper">
+                <form class='materials_add_form_html'>
+                    <header>Materials</header>
+                    <div class="inputField">
+                        <input type="text" class='material_name' placeholder='Material Name'>
+                    </div>
+                    <div class="inputField">
+                        <input type="number" class='material_price_per_gram' placeholder='Material Price Per Gram'>
+                    </div>
+                    <div>
+                        <button type="submit">Add</button>
+                    </div>
+                    <div class='materials_display'>
+                        <h3>Materials</h3>
+                        <div class='display_table_div'>
+                            <table border='1'>
+                                <thead>
+                                    <tr>
+                                        <th>Sl. No.</th>
+                                        <th>Material Name</th>
+                                        <th>Price Per Gram</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class='materials_body'>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+            </div>  
+        </div>
         <div class='navbar'>
             <nav>
                 <ul>
@@ -25,44 +64,6 @@
                     <li><a href="ornaments.php">Ornaments</a></li>
                 </ul>
             </nav>
-        </div>
-        <div class='container'>
-            <div class='materials_main'>
-                <div class='materials_add_form'>
-                    <h4>Add Materials</h4>
-                    <form class='materials_add_form_html'>
-                        <div>
-                            <label>Material Name</label>
-                            <input type="text" class='material_name'>
-                        </div>
-                        <div>
-                            <label>Price Per Gram</label>
-                            <input type="number" class='material_price_per_gram'>
-                        </div>
-                        <div>
-                            <input type="submit" value="Add Material">
-                        </div>
-                    </form>
-                </div>
-                <div class='materials_display'>
-                    <h3>Materials</h3>
-                    <div class='display_table_div'>
-                        <table border='1'>
-                            <thead>
-                                <tr>
-                                    <th>Sl. No.</th>
-                                    <th>Material Name</th>
-                                    <th>Price Per Gram</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody class='materials_body'>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </body>

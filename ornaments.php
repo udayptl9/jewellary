@@ -17,62 +17,52 @@
 </style>
 <body>
     <div class='main'>
-        <div class='navbar'>
-            <nav>
-                <ul>
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="materials.php">Materials</a></li>
-                    <li><a href="ornaments.php">Ornaments</a></li>
-                </ul>
-            </nav>
+        <div class="topnav navbar">
+            <a href="index.php">Home</a>
+            <a href="materials.php">Materials</a>
+            <a href="ornaments.php">Ornaments</a>
         </div>
         <div class='container'>
-            <div class='materials_main'>
-                <div class='materials_add_form'>
-                    <h4>Add Ornaments</h4>
-                    <form class='materials_add_form_html'>
-                        <div>
-                            <label>Material Name</label>
-                            <select class='material_id'></select>
-                        </div>
-                        <div>
-                            <label>Ornament Name</label>
-                            <input type="text" class='ornament_name'>
-                        </div>
-                        <div>
-                            <label>Ornament Description</label>
-                            <textarea class='ornament_description' cols="30" rows="10"></textarea>
-                        </div>
-                        <div>
-                            <label>Ornament Weight ( in gram )</label>
-                            <input type="text" class="ornament_weight">
-                        </div>
-                        <div>
-                            <input type="submit" value="Add Material">
-                        </div>
-                    </form>
-                </div>
-                <div class='materials_display'>
-                    <h3>Ornaments</h3>
-                    <div class='display_table_div'>
-                        <table border='1'>
-                            <thead>
-                                <tr>
-                                    <th>Sl. No.</th>
-                                    <th>Ornament Name</th>
-                                    <th>Ornament Description</th>
-                                    <th>Material</th>
-                                    <th>Weight (in gram)</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody class='materials_body'>
-
-                            </tbody>
-                        </table>
+            <div class="wrapper">
+                <form class='materials_add_form_html'>
+                    <header>Ornaments</header>
+                    <div class="inputField">
+                        <select class='material_id'></select>
                     </div>
-                </div>
-            </div>
+                    <div class="inputField">
+                        <input type="text" class='ornament_name' placeholder='Ornament Name'>
+                    </div>
+                    <div class="inputField">
+                        <textarea class='ornament_description' cols="30" rows="10" placeholder='Ornament Description'></textarea>
+                    </div>
+                    <div class="inputField">
+                        <input type="text" class="ornament_weight" placeholder='Ornament Weight ( in gram )'>
+                    </div>
+                    <div>
+                        <button type="submit">Add</button>
+                    </div>
+                    <div class='materials_display'>
+                        <h3>Manage Ornaments</h3>
+                        <div class='display_table_div'>
+                            <table border='1'>
+                                <thead>
+                                    <tr>
+                                        <th>Sl. No.</th>
+                                        <th>Ornament Name</th>
+                                        <th>Ornament Description</th>
+                                        <th>Material</th>
+                                        <th>Weight (in gram)</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class='materials_body'>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+            </div>  
         </div>
     </div>
 </body>
