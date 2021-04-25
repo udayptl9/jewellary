@@ -17,7 +17,7 @@
 </style>
 <body>
     <div class='main'>
-    <div class="topnav navbar">
+        <div class="topnav navbar">
             <a href="index.php">Home</a>
             <a href="materials.php">Materials</a>
             <a href="ornaments.php">Ornaments</a>

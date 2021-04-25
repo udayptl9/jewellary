@@ -11,14 +11,10 @@
 </head>
 <body>
     <div class='main'>
-        <div class='navbar'>
-            <nav>
-                <ul>
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="materials.php">Materials</a></li>
-                    <li><a href="ornaments.php">Ornaments</a></li>
-                </ul>
-            </nav>
+        <div class="topnav navbar">
+            <a href="index.php">Home</a>
+            <a href="materials.php">Materials</a>
+            <a href="ornaments.php">Ornaments</a>
         </div>
         <div class='container'>
             <h3>Home Page</h3>
