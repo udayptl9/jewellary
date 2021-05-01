@@ -21,6 +21,7 @@
             <a href="index.php">Home</a>
             <a href="materials.php">Materials</a>
             <a href="ornaments.php">Ornaments</a>
+            <a href="orders.php">Orders</a>
         </div>
         <div class='container'>
             <div class="wrapper">

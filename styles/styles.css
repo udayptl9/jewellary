@@ -127,6 +127,84 @@ body{
   cursor: default;
   overflow: hidden;
 }
+
+.progressDiv {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 300px;
+}
+
+.progress {
+  margin: 0 auto;
+  background-color: white;
+  box-shadow: 1px 1px 3px 1px grey;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  width: 40px;
+  height: 100%;
+}
+
+.light {
+  pointer-events: none;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.2;
+}
+
+.progress:hover .light {
+  opacity: 1;
+}
+
+.activeprogress {
+  opacity: 1 !important;
+}
+
+.progressdesc {
+  pointer-events: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%);
+  display: block;
+  text-align: center;
+  opacity: 0.8;
+  display: none;
+  z-index: 10;
+  color: white;
+  font-weight: bold;
+  background-color: grey;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.progress:hover .progressdesc {
+  display: inline-block;
+}
+
+.red {
+  background-color: red;
+}
+
+.orange {
+  background-color: orange;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.green {
+  background-color: green;
+}
+
 .todoList li .icon{
   position: absolute;
   right: -45px;
