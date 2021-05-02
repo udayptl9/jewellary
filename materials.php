@@ -36,7 +36,8 @@
                     <div>
                         <button type="submit">Add</button>
                     </div>
-                    <div class='materials_display'>
+                </form>
+                <div class='materials_display'>
                         <h3>Materials</h3>
                         <div class='display_table_div'>
                             <table border='1'>
@@ -54,7 +55,6 @@
                             </table>
                         </div>
                     </div>
-                </form>
             </div>  
         </div>
         <div class='navbar'>

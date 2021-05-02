@@ -42,27 +42,27 @@
                     <div>
                         <button type="submit">Add</button>
                     </div>
-                    <div class='materials_display'>
-                        <h3>Manage Ornaments</h3>
-                        <div class='display_table_div'>
-                            <table border='1'>
-                                <thead>
-                                    <tr>
-                                        <th>Sl. No.</th>
-                                        <th>Ornament Name</th>
-                                        <th>Ornament Description</th>
-                                        <th>Material</th>
-                                        <th>Weight (in gram)</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody class='materials_body'>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
                 </form>
+                <div class='materials_display'>
+                    <h3>Manage Ornaments</h3>
+                    <div class='display_table_div'>
+                        <table border='1'>
+                            <thead>
+                                <tr>
+                                    <th>Sl. No.</th>
+                                    <th>Ornament Name</th>
+                                    <th>Ornament Description</th>
+                                    <th>Material</th>
+                                    <th>Weight (in gram)</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class='materials_body'>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>  
         </div>
     </div>

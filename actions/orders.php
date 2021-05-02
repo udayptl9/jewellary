@@ -32,7 +32,7 @@
             print_r(json_encode($response));
         } else if($action == 'deleteOrder') {
             $id = $_POST['id'];
-            $sql = "DELETE FROM `materials` WHERE `material_id` = $id";
+            $sql = "DELETE FROM `orders` WHERE `order_id` = $id";
             $result = mysqli_query($conn, $sql);
             $response = array('status'=>$result, 'id'=>$id);
             print_r(json_encode($response));

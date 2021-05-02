@@ -83,7 +83,8 @@
                     <div>
                         <button type="submit">Add</button>
                     </div>
-                    <div class='materials_display'>
+                </form>
+                <div class='materials_display'>
                         <h3>Manage Orders</h3>
                         <div class='display_table_div'>
                             <table border='1'>
@@ -108,7 +109,6 @@
                             </table>
                         </div>
                     </div>
-                </form>
             </div>  
         </div>
     </div>
@@ -125,15 +125,17 @@
             event.target.querySelector('.light').classList.add('activeprogress');
         })
     })
-    function deleteOrnament(id) {
+    function deleteOrder(event, id) {
+        event.preventDefault();
+        console.log(event.target);
         $.ajax({
-            url: 'actions/ornaments.php',
+            url: 'actions/orders.php',
             type: 'POST',
             data: {
-                action: 'deleteOrnament',
+                action: 'deleteOrder',
                 id: id,
             }, beforeSend: function() {
-                console.log('Deleteing Ornament');
+                console.log('Deleteing Order');
             }, success: function(response) {
                 console.log(response);
             }
@@ -231,7 +233,7 @@
                                                         <td>${order.amount_paid}</td>
                                                         <td>${order.final_amount}</td>
                                                         <td><div style='background: ${color}; width: 25px; height: 25px; border-radius: 50%; margin: 0 auto;'></div></td>
-                                                        <td><button>Delete</button></td>
+                                                        <td><button onclick='deleteOrder(event, "${order.order_id}")'>Delete</button></td>
                                                     </tr>
                                                 `;
                                             })
