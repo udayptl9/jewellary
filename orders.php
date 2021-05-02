@@ -221,7 +221,7 @@
                                         if(response_JSON.status) {
                                             response_JSON.data.forEach((order, index) => {
                                                 const color = progress_colors[order.progress];
-                                                document.querySelector('.materials_body').innerHTML = `
+                                                document.querySelector('.materials_body').innerHTML += `
                                                     <tr>
                                                         <td>${index+1}</td>
                                                         <td>${order.order_id}</td>
