@@ -351,7 +351,7 @@
                                                         <td>${order.delivery_date}</td>
                                                         <td>${getOrnamentName(order.ornament_id)}</td>
                                                         <td>${order.weight}</td>
-                                                        <td>${order.amount_paid}</td>
+                                                        <td ${(Number(order.amount_paid) < Number(order.final_amount))?('style="color: red;"'):('')}>${order.amount_paid}</td>
                                                         <td>${order.final_amount}</td>
                                                         <td><div>${progressDiv}<div class='reference_id' style='display: none;'>${order.order_id}</div></div></td>
                                                         <td><button onclick='deleteOrder(event, "${order.order_id}")'>Delete</button></td>
