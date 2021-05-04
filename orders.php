@@ -47,6 +47,7 @@
         </div>
         <div class='container'>
             <div class="wrapper">
+                <input type="text" class='order_search' placeholder='Search Orders Here...'>
                 <form class='order_form_html'>
                     <header>Orders</header>
                     <div class="inputField">
@@ -161,6 +162,30 @@
                 </div>
             </div>`;
             event.target.selectedIndex = 0;
+        }
+    })
+
+    document.querySelector('.order_search').addEventListener('keyup', (event)=>{
+        event.preventDefault();
+        var input, filter, ul, li, a, i, txtValue;
+        input = event.target;
+        filter = input.value.toUpperCase();
+        if(filter.length > 0) {
+            console.log(filter)
+            document.querySelector('.order_form_html').style.display = 'none';
+        } else {
+            document.querySelector('.order_form_html').style.display = 'block';
+        }
+        ul = document.querySelector(".materials_body");
+        li = ul.getElementsByTagName("tr");
+        for (i = 0; i < li.length; i++) {
+            a = li[i].querySelector(".search_type");
+            txtValue = a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
         }
     })
 
@@ -346,7 +371,7 @@
                                                     <tr>
                                                         <td>${index+1}</td>
                                                         <td>${order.order_id}</td>
-                                                        <td>${order.customer_name}</td>
+                                                        <td class='search_type'>${order.customer_name}</td>
                                                         <td>${order.address}</td>
                                                         <td>${order.delivery_date}</td>
                                                         <td>${getOrnamentName(order.ornament_id)}</td>
