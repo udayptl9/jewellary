@@ -376,7 +376,7 @@
                                                         <td>${order.delivery_date}</td>
                                                         <td>${getOrnamentName(order.ornament_id)}</td>
                                                         <td>${order.weight}</td>
-                                                        <td ${(Number(order.amount_paid) < Number(order.final_amount))?('style="color: red;"'):('')}>${order.amount_paid}</td>
+                                                        <td style='position: relative;' class='editable_tr'><div ${(Number(order.amount_paid) < Number(order.final_amount))?('style="color: red;"'):('')}>${order.amount_paid}</div><div class='edit_amount'>Edit</div></td>
                                                         <td>${order.final_amount}</td>
                                                         <td><div>${progressDiv}<div class='reference_id' style='display: none;'>${order.order_id}</div></div></td>
                                                         <td><button onclick='deleteOrder(event, "${order.order_id}")'>Delete</button></td>

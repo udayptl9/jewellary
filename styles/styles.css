@@ -108,6 +108,28 @@ body{
 .footer button:hover{
   background: #721ce3;
 }
+
+.edit_amount {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: orange;
+  color: white;
+  font-weight: bold;
+  padding: 11px;
+  border-radius: 5px;
+  display: none;
+  cursor: pointer;
+  text-align: center;
+  margin: 4px;
+}
+
+.editable_tr:hover .edit_amount {
+  display: block;
+}
+
 .inputField button.active{
   opacity: 1;
   pointer-events: auto;
