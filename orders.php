@@ -345,6 +345,8 @@
             return ornament_names;
         }
     }
+    var balances_displayed = [];
+    var fetched_data = [];
 
     function editProgress(progress_id, order_id) {
         $.ajax({
@@ -418,54 +420,14 @@
                                         const response_JSON = JSON.parse(response);
                                         if(response_JSON.status) {
                                             response_JSON.data.forEach((order, index) => {
-                                                const progressDiv = `
-                                                    <div class='progressDiv' style='width: 150px;'>
-                                                        <div class='progress editProgress' onclick='editProgress(0, ${order.order_id})' style='width: 20px; height: 20px; border-radius: 50%;'>
-                                                            <div class='showlight red ${(order.progress == '0')?('activeprogress'):('')}'></div>
-                                                            <div class='progressdesc' style='width: 300px;'>
-                                                                Ornament not available with me, Need to order
-                                                            </div>
-                                                            <div class='progress_code' style='display: none;'>0</div>
-                                                        </div>
-                                                        <div class='progress editProgress' onclick='editProgress(1, ${order.order_id})' style='width: 20px; height: 20px; border-radius: 50%;'>
-                                                            <div class='showlight orange ${(order.progress == '1')?('activeprogress'):('')}'></div>
-                                                            <div class='progressdesc' style='width: 100px;'>
-                                                                Processing
-                                                            </div>
-                                                            <div class='progress_code' style='display: none;'>1</div>
-                                                        </div>
-                                                        <div class='progress editProgress' onclick='editProgress(2, ${order.order_id})' style='width: 20px; height: 20px; border-radius: 50%;'>
-                                                            <div class='showlight yellow ${(order.progress == '2')?('activeprogress'):('')}'></div>
-                                                            <div class='progressdesc' style='width: 250px;'>
-                                                                Ready but, not yet delivered
-                                                            </div>
-                                                            <div class='progress_code' style='display: none;'>2</div>
-                                                        </div>
-                                                        <div class='progress editProgress' onclick='editProgress(3, ${order.order_id})' style='width: 20px; height: 20px; border-radius: 50%;'>
-                                                            <div class='showlight green ${(order.progress == '3')?('activeprogress'):('')}'></div>
-                                                            <div class='progressdesc'>
-                                                                Delivered
-                                                            </div>
-                                                            <div class='progress_code' style='display: none;'>3</div>
-                                                        </div>
-                                                    </div>
-                                                `;
-                                                document.querySelector('.materials_body').innerHTML += `
-                                                    <tr>
-                                                        <td>${index+1}</td>
-                                                        <td>${order.order_key}</td>
-                                                        <td class='search_type'>${order.customer_name}</td>
-                                                        <td>${order.address}</td>
-                                                        <td>${order.delivery_date}</td>
-                                                        <td>${getOrnamentName(order.ornament_id)}</td>
-                                                        <td>${order.weight}</td>
-                                                        <td style='position: relative;' class='editable_tr'><div ${(Number(order.payment_amount) < Number(order.total_payment))?('style="color: red;"'):('')}>${order.payment_amount}</div></td>
-                                                        <td>${order.final_amount}</td>
-                                                        <td><div>${progressDiv}<div class='reference_id' style='display: none;'>${order.order_id}</div></div></td>
-                                                        <td><button onclick='deleteOrder(event, "${order.order_id}")'>Delete</button></td>
-                                                    </tr>   
-                                                `;
+                                                if(balances_displayed.includes(`${order.payment_of}`)) {
+                                                    fetched_data[order.payment_of].payment_amount = Number(fetched_data[order.payment_of].payment_amount) + Number(order.payment_amount);
+                                                } else {
+                                                    fetched_data[order.payment_of] = order;
+                                                    balances_displayed.push(`${order.payment_of}`);
+                                                }
                                             })
+                                            displayTable()
                                         }
                                         
                                     } catch (error) {
@@ -480,6 +442,62 @@
             }
         }
     })
+
+    function displayTable() {
+        var index = 0;
+        console.log(fetched_data)
+        for(var key in fetched_data) {
+            const order = fetched_data[key];
+            const progressDiv = `
+                <div class='progressDiv' style='width: 150px;'>
+                    <div class='progress editProgress' onclick='editProgress(0, ${order.order_id})' style='width: 20px; height: 20px; border-radius: 50%;'>
+                        <div class='showlight red ${(order.progress == '0')?('activeprogress'):('')}'></div>
+                        <div class='progressdesc' style='width: 300px;'>
+                            Ornament not available with me, Need to order
+                        </div>
+                        <div class='progress_code' style='display: none;'>0</div>
+                    </div>
+                    <div class='progress editProgress' onclick='editProgress(1, ${order.order_id})' style='width: 20px; height: 20px; border-radius: 50%;'>
+                        <div class='showlight orange ${(order.progress == '1')?('activeprogress'):('')}'></div>
+                        <div class='progressdesc' style='width: 100px;'>
+                            Processing
+                        </div>
+                        <div class='progress_code' style='display: none;'>1</div>
+                    </div>
+                    <div class='progress editProgress' onclick='editProgress(2, ${order.order_id})' style='width: 20px; height: 20px; border-radius: 50%;'>
+                        <div class='showlight yellow ${(order.progress == '2')?('activeprogress'):('')}'></div>
+                        <div class='progressdesc' style='width: 250px;'>
+                            Ready but, not yet delivered
+                        </div>
+                        <div class='progress_code' style='display: none;'>2</div>
+                    </div>
+                    <div class='progress editProgress' onclick='editProgress(3, ${order.order_id})' style='width: 20px; height: 20px; border-radius: 50%;'>
+                        <div class='showlight green ${(order.progress == '3')?('activeprogress'):('')}'></div>
+                        <div class='progressdesc'>
+                            Delivered
+                        </div>
+                        <div class='progress_code' style='display: none;'>3</div>
+                    </div>
+                </div>
+            `;
+            document.querySelector('.materials_body').innerHTML += `
+                <tr>
+                    <td>${index+1}</td>
+                    <td>${order.order_key}</td>
+                    <td class='search_type'>${order.customer_name}</td>
+                    <td>${order.address}</td>
+                    <td>${order.delivery_date}</td>
+                    <td>${getOrnamentName(order.ornament_id)}</td>
+                    <td>${order.weight}</td>
+                    <td style='position: relative;' class='editable_tr'><div ${(Number(order.payment_amount) < Number(order.total_payment))?('style="color: red;"'):('')}>${order.payment_amount}</div></td>
+                    <td>${order.final_amount}</td>
+                    <td><div>${progressDiv}<div class='reference_id' style='display: none;'>${order.order_id}</div></div></td>
+                    <td><button onclick='deleteOrder(event, "${order.order_id}")'>Delete</button></td>
+                </tr>   
+            `;
+            index++;
+        }
+    }
 
     // add order submit
     document.querySelector('.order_form_html').addEventListener('submit', function(event) {

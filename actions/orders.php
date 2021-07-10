@@ -33,7 +33,8 @@
             $sql = "INSERT INTO `orders`(`customer_name`, `ornament_id`, `weight`, `delivery_date`, `address`, `amount_paid`, `final_amount`, `progress`, `order_key`) VALUES ('$customer_name','$ornament_id','$weight','$delivery_date','$address','$amount_paid','$final_amount','$progress_id', '$unique_id')";
             $result = mysqli_query($conn, $sql);
             $response = array('status'=> $result);
-            $sql = "INSERT INTO `payments`(`payment_of`, `payment_amount`, `total_payment`) VALUES ('$unique_id' ,'$amount_paid','$final_amount')";
+            $payment_on = date('d/m/Y');
+            $sql = "INSERT INTO `payments`(`payment_of`, `payment_amount`, `total_payment`, `payment_on`) VALUES ('$unique_id' ,'$amount_paid','$final_amount', '$payment_on')";
             $result = mysqli_query($conn, $sql);
             $response = array('status'=> $result);
             print_r(json_encode($response));

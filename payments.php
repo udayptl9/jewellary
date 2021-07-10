@@ -32,6 +32,7 @@
                                     <th>Order ID</th>
                                     <th>Payment ID</th>
                                     <th>Amount Paid</th>
+                                    <th>Amount On</th>
                                     <th>Final Amount</th>
                                     <th>Actions</th>
                                 </tr>
@@ -66,6 +67,7 @@
                                     <td>${payment.payment_of}</td>
                                     <td>${payment.payment_id}</td>
                                     <td>${payment.payment_amount}</td>
+                                    <td>${payment.payment_on}</td>
                                     <td>${payment.total_payment}</td>
                                     <td><button style='border: 0; background: red; color: white; border-radius: 5px; font-weight: bold; cursor: pointer;' onclick="delete_payment(event, '${payment.payment_id}')">Delete</button></td>
                                 </tr>

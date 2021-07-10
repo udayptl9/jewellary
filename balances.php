@@ -80,6 +80,8 @@
     </div>
 </body>
 <script>
+    var balances_displayed = [];
+    var fetched_data = [];
     $.ajax({
         url: 'actions/payments.php',
         type: 'POST',
@@ -92,21 +94,15 @@
                 try {
                     const response_JSON = JSON.parse(response);
                     if(response_JSON.status) {
-                        console.log(response_JSON.data)
                         response_JSON.data.map((payment, index) => {
-                            if(Number(payment.total_payment) - Number(payment.payment_amount) > 0) {
-                                document.querySelector('.payments_body').innerHTML += `
-                                    <tr>
-                                        <td>${index + 1}</td>
-                                        <td>${payment.payment_of}</td>
-                                        <td>${payment.payment_id}</td>
-                                        <td>${Number(payment.total_payment) - Number(payment.payment_amount)}</td>
-                                        <td>${payment.total_payment}</td>
-                                        <td style='position: relative;'><button style='border: 0; background: blue; color: white; border-radius: 5px; font-weight: bold; cursor: pointer; position: relative;' onclick="smallDeletePopUp.render(event, '${payment.total_payment}', '${payment.payment_id}', '${payment.payment_amount}')">Pay</button></td>
-                                    </tr>
-                                `;
+                            if(balances_displayed.includes(`${payment.payment_of}`)) {
+                                fetched_data[payment.payment_of].payment_amount = Number(fetched_data[payment.payment_of].payment_amount) + Number(payment.payment_amount);
+                            } else {
+                                fetched_data[payment.payment_of] = payment;
+                                balances_displayed.push(`${payment.payment_of}`);
                             }
                         });
+                        displayTable();
                     }
                 } catch (error) {
                     console.error(error, response);
@@ -114,9 +110,27 @@
             }
         }
     })
+    function displayTable() {
+        var index = 0;
+        for(var key in fetched_data) {
+            const payment = fetched_data[key];
+            document.querySelector('.payments_body').innerHTML += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${payment.payment_of}</td>
+                    <td>${payment.payment_id}</td>
+                    <td>${Number(payment.total_payment) - Number(payment.payment_amount)}</td>
+                    <td>${payment.total_payment}</td>
+                    <td style='position: relative;'><button style='border: 0; background: blue; color: white; border-radius: 5px; font-weight: bold; cursor: pointer; position: relative;' onclick="smallDeletePopUp.render(event, '${payment.total_payment}', '${payment.payment_of}', '${payment.payment_amount}', '${payment.total_payment}')">Pay</button></td>
+                </tr>
+            `;
+            index++;
+        }
+    }
+
     var delete_no = 0;
     function smallCustomPopup() {
-        this.render = function (event, final_amount, payment_of, total_payment) {
+        this.render = function (event, final_amount, payment_of, total_payment, final_payment) {
             event.stopPropagation();
             event.target.parentElement.innerHTML += `
                 <div class="download_options delete_no_${delete_no}">
@@ -148,7 +162,7 @@
                                 </div>
                             </form>
                             <div class='delete_options' style='text-align: center; margin: 10px auto;'>
-                                <button class='btn btn-danger' onclick="smallDeletePopUp.pay(event, '${delete_no}','${payment_of}', '${total_payment}')">Pay</button>
+                                <button class='btn btn-danger' onclick="smallDeletePopUp.pay(event, '${delete_no}','${payment_of}', '${total_payment}', '${final_payment}')">Pay</button>
                                 <button class='btn btn-default' onclick="smallDeletePopUp.no(event, '${delete_no}')">No</button>
                             </div>
                         </div>
@@ -160,8 +174,9 @@
             `;
             delete_no++;
         };
-        this.pay = function (event, delete_no, id, total_payment) {
+        this.pay = function (event, delete_no, id, total_payment, final_payment) {
             event.preventDefault();
+            console.log(id)
             const amount_paid = document.querySelector('.new_payment_amount_'+delete_no).value;
             $.ajax({
                 url: 'actions/payments.php',
@@ -169,9 +184,10 @@
                 data: {
                     action: 'updatePayment',
                     id: id,
-                    amount_paid: Number(amount_paid) + Number(total_payment)
+                    final_payment: final_payment,
+                    amount_paid: Number(amount_paid)
                 }, beforeSend: function() {
-                    console.log('Deleteing Payment');
+                    console.log('Paying');
                 }, success: function(response) {
                     console.log(response);
                 }, error: function(err) {

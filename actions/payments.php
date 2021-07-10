@@ -26,9 +26,11 @@
         } else if($action == 'updatePayment') {
             $id = $_POST['id'];
             $amount_paid = $_POST['amount_paid'];
-            $sql = "UPDATE `payments` SET `payment_amount`='$amount_paid' WHERE `payment_id` = $id";
-            $response = mysqli_query($conn, $sql);
-            print_r(json_encode(array('response'=>$response, "id"=>$id, "amount"=>$amount_paid)));
+            $final_payment = $_POST['final_payment'];
+            $payment_on = date('d/m/Y');
+            $sql = "INSERT INTO `payments`(`payment_of`, `payment_amount`, `total_payment`, `payment_on`) VALUES ('$id' ,'$amount_paid','$final_payment' ,'$payment_on')";
+            $result = mysqli_query($conn, $sql);
+            $response = array('status'=> $result);
         }
     }
 ?>
