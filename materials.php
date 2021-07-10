@@ -17,12 +17,7 @@
 </style>
 <body>
     <div class='main'>
-        <div class="topnav navbar">
-            <a href="index.php">Home</a>
-            <a href="materials.php">Materials</a>
-            <a href="ornaments.php">Ornaments</a>
-            <a href="orders.php">Orders</a>
-        </div>
+        <?php include('layouts/topbar.php'); ?>
         <div class='container'>
             <div class="wrapper">
                 <form class='materials_add_form_html'>

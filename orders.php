@@ -63,12 +63,7 @@
 </style>
 <body>
     <div class='main'>
-        <div class="topnav navbar">
-            <a href="index.php">Home</a>
-            <a href="materials.php">Materials</a>
-            <a href="ornaments.php">Ornaments</a>
-            <a href="orders.php">Orders</a>
-        </div>
+        <?php include('layouts/topbar.php'); ?>
         <div class='container'>
             <div class="wrapper">
                 <input type="text" class='order_search' placeholder='Search Orders Here...'>
@@ -458,7 +453,7 @@
                                                 document.querySelector('.materials_body').innerHTML += `
                                                     <tr>
                                                         <td>${index+1}</td>
-                                                        <td>${order.order_id}</td>
+                                                        <td>${order.order_key}</td>
                                                         <td class='search_type'>${order.customer_name}</td>
                                                         <td>${order.address}</td>
                                                         <td>${order.delivery_date}</td>
