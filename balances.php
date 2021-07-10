@@ -92,20 +92,20 @@
                 try {
                     const response_JSON = JSON.parse(response);
                     if(response_JSON.status) {
+                        console.log(response_JSON.data)
                         response_JSON.data.map((payment, index) => {
-                            if(Number(payment.total_payment) - Number(payment.payment_amount) <= 0) {
-                                return;
+                            if(Number(payment.total_payment) - Number(payment.payment_amount) > 0) {
+                                document.querySelector('.payments_body').innerHTML += `
+                                    <tr>
+                                        <td>${index + 1}</td>
+                                        <td>${payment.payment_of}</td>
+                                        <td>${payment.payment_id}</td>
+                                        <td>${Number(payment.total_payment) - Number(payment.payment_amount)}</td>
+                                        <td>${payment.total_payment}</td>
+                                        <td style='position: relative;'><button style='border: 0; background: blue; color: white; border-radius: 5px; font-weight: bold; cursor: pointer; position: relative;' onclick="smallDeletePopUp.render(event, '${payment.total_payment}', '${payment.payment_id}', '${payment.payment_amount}')">Pay</button></td>
+                                    </tr>
+                                `;
                             }
-                            document.querySelector('.payments_body').innerHTML += `
-                                <tr>
-                                    <td>${index + 1}</td>
-                                    <td>${payment.payment_of}</td>
-                                    <td>${payment.payment_id}</td>
-                                    <td>${Number(payment.total_payment) - Number(payment.payment_amount)}</td>
-                                    <td>${payment.total_payment}</td>
-                                    <td style='position: relative;'><button style='border: 0; background: blue; color: white; border-radius: 5px; font-weight: bold; cursor: pointer; position: relative;' onclick="smallDeletePopUp.render(event, '${payment.total_payment}', '${payment.payment_id}', '${payment.payment_amount}')">Pay</button></td>
-                                </tr>
-                            `;
                         });
                     }
                 } catch (error) {
