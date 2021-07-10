@@ -62,7 +62,7 @@
                         <input type="text" class='customer_name' placeholder='Customer Name'>
                     </div>
                     <div class="inputField">
-                        <input type="number" class='weight' placeholder='Ornament Weight ( in gram )'>
+                        <input type="number" class='weight' placeholder='Total Weight ( in gram )'>
                     </div>
                     <div class="inputField">
                         <input type="date" class='delivery_date'>
@@ -163,6 +163,7 @@
             </div>`;
             event.target.selectedIndex = 0;
         }
+        setWeightFinalWeight();
     })
 
     document.querySelector('.order_search').addEventListener('keyup', (event)=>{
@@ -189,6 +190,17 @@
         }
     })
 
+    function setWeightFinalWeight() {
+        document.querySelector('.weight').value = 0;
+        document.querySelector('.final_amount').value = 0;
+        selectedOrders.map(order => {
+            const {ornament_weight, material_id} = getOrnamentObject(order);
+            document.querySelector('.weight').value = Number(document.querySelector('.weight').value) + Number(ornament_weight);
+            const { price_per_gram } = getMaterialObject(material_id);
+            document.querySelector('.final_amount').value = Number(document.querySelector('.final_amount').value) + Number(ornament_weight * price_per_gram);
+        })
+    }
+
     function remove_setected_order(event) {
         event.preventDefault();
         const index = selectedOrders.indexOf(Number(event.target.parentElement.querySelector('.order_ornament_id').innerHTML));
@@ -196,6 +208,7 @@
             selectedOrders.splice(index, 1);
         }
         event.target.parentElement.parentElement.outerHTML = '';
+        setWeightFinalWeight();
     }
 
     document.querySelectorAll('.progress').forEach(progress=>{
@@ -231,11 +244,25 @@
         })
     }
 
+    function getMaterialObject(material_id) {
+        const materialData = materialsData.filter(material => {
+            return material.material_id == material_id;
+        });
+        return materialData[0];
+    }
+
     function getMaterialName(material_id) {
         const materialData = materialsData.filter(material => {
             return material.material_id == material_id;
         });
         return materialData[0].material_name;
+    }
+
+    function getOrnamentObject(ornament_id) {
+        const ornamentData = ornamentsData.filter(ornament => {
+            return ornament.ornament_id == ornament_id;
+        });
+        return ornamentData[0];
     }
 
     function getOrnamentName(ornament_id) {
