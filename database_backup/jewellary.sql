@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 10, 2021 at 02:25 PM
+-- Generation Time: Jul 10, 2021 at 04:26 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -66,7 +66,7 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `customer_name`, `ornament_id`, `weight`, `delivery_date`, `address`, `amount_paid`, `final_amount`, `progress`, `order_key`) VALUES
-(15, 'testing', '6 ', 4, '2021-07-25', 'test desc', 10000, 20000, 0, '60e990665a7a3');
+(23, 'Test', '2 ', 12, '2021-07-11', 'test address', 5000, 120000, 1, '60e9ac3f4211c');
 
 -- --------------------------------------------------------
 
@@ -101,15 +101,18 @@ CREATE TABLE `payments` (
   `payment_id` int(11) NOT NULL,
   `payment_of` varchar(255) NOT NULL,
   `payment_amount` varchar(255) NOT NULL,
-  `total_payment` varchar(255) NOT NULL
+  `total_payment` varchar(255) NOT NULL,
+  `payment_on` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `payments`
 --
 
-INSERT INTO `payments` (`payment_id`, `payment_of`, `payment_amount`, `total_payment`) VALUES
-(7, '60e990665a7a3', '20000', '20000');
+INSERT INTO `payments` (`payment_id`, `payment_of`, `payment_amount`, `total_payment`, `payment_on`) VALUES
+(22, '60e9ac3f4211c', '5000', '120000', '10/07/2021'),
+(23, '60e9ac3f4211c', '1000', '120000', '10/07/2021'),
+(24, '60e9ac3f4211c', '4000', '120000', '10/07/2021');
 
 --
 -- Indexes for dumped tables
@@ -153,7 +156,7 @@ ALTER TABLE `materials`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `ornaments`
@@ -165,7 +168,7 @@ ALTER TABLE `ornaments`
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
