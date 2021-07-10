@@ -445,7 +445,6 @@
 
     function displayTable() {
         var index = 0;
-        console.log(fetched_data)
         for(var key in fetched_data) {
             const order = fetched_data[key];
             const progressDiv = `

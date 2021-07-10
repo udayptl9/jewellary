@@ -114,6 +114,9 @@
         var index = 0;
         for(var key in fetched_data) {
             const payment = fetched_data[key];
+            if(Number(payment.total_payment) - Number(payment.payment_amount) <= 0) {
+                continue;
+            }
             document.querySelector('.payments_body').innerHTML += `
                 <tr>
                     <td>${index + 1}</td>
