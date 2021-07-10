@@ -14,12 +14,16 @@
         border-collapse: collapse;
         padding: 5px;
     }
+    .orders {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
     .order_selected {
         padding: 5px;
         border-radius: 10px;
         background: lightblue;
         min-width: 100px;
-        margin: 0px 7px;
+        margin: 7px;
     }
     .remove_order_selected {
         padding: 5px;
@@ -35,6 +39,26 @@
     }
     .remove_order_selected:hover {
         background: rgb(126, 186, 206);
+    }
+    .ornament_form input {
+        padding: 5px;
+        outline: none;
+        border-radius: 4px;
+        border: 0;
+    }
+    .ornament_form div {
+        margin: 5px;
+    }
+    .save_ornaments {
+        padding: 8px;
+        border-radius: 5px;
+        background: green;
+        display: inline-block;
+        margin: 5px 0px;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        display: none;
     }
 </style>
 <body>
@@ -57,6 +81,7 @@
                     </div>
                     <div>
                         <div class='orders'></div>
+                        <div class='save_ornaments' onclick='fillMainForm(event)'>Save</div>
                     </div>
                     <div class="inputField">
                         <input type="text" class='customer_name' placeholder='Customer Name'>
@@ -154,16 +179,43 @@
                 return; 
             }
             selectedOrders.push(Number(newValue));
-            document.querySelector('.orders').innerHTML += `<div style='display: inline-block;' class='order_selected'>
+            var element = document.createElement('div');
+            element.style.display = 'inline-block';
+            element.classList.add('order_selected');
+            element.innerHTML = `
                 <div style='display: inline-block; position: relative; width: 100%;'>
-                    <div style='padding-right: 60px;'>${getOrnamentName(Number(newValue))}</div>
                     <div class='order_ornament_id' style='display: none;'>${newValue}</div>
-                    <div style='display: inline-block;' onclick='remove_setected_order(event)' class='remove_order_selected'>X</div>
+                    <div style='position: absolute; top: 10px; right: 0px;' onclick='remove_setected_order(event)' class='remove_order_selected'>X</div>
+                    <div class='ornament_form'>
+                        <form method='POST'>
+                            <div>
+                                <label>Ornament Name</label>
+                                <input type='text' value='${getOrnamentName(Number(newValue))}' disabled>
+                            </div>
+                            <div>
+                                <label>Ornament Weight</label>
+                                <input type='number' value='${getOrnamentObject(Number(newValue)).ornament_weight}' class='ornament_weight'>
+                            </div>
+                            <div>
+                                <label>Ornament Quantity</label>
+                                <input type='number' value='1' class='ornament_quantity'>
+                            </div>
+                            <div>
+                                <label>Ornament Price Per Gram</label>
+                                <input type='number' value='${getMaterialObject(getOrnamentObject(Number(newValue)).material_id).price_per_gram}' disabled class='ornament_price_per_gram'>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>`;
+            `;
+            document.querySelector('.orders').append(element);
             event.target.selectedIndex = 0;
         }
-        setWeightFinalWeight();
+        if(selectedOrders.length > 0) {
+            document.querySelector('.save_ornaments').style.display = 'inline-block';
+        } else {
+            document.querySelector('.save_ornaments').style.display = 'none';
+        }
     })
 
     document.querySelector('.order_search').addEventListener('keyup', (event)=>{
@@ -190,17 +242,6 @@
         }
     })
 
-    function setWeightFinalWeight() {
-        document.querySelector('.weight').value = 0;
-        document.querySelector('.final_amount').value = 0;
-        selectedOrders.map(order => {
-            const {ornament_weight, material_id} = getOrnamentObject(order);
-            document.querySelector('.weight').value = Number(document.querySelector('.weight').value) + Number(ornament_weight);
-            const { price_per_gram } = getMaterialObject(material_id);
-            document.querySelector('.final_amount').value = Number(document.querySelector('.final_amount').value) + Number(ornament_weight * price_per_gram);
-        })
-    }
-
     function remove_setected_order(event) {
         event.preventDefault();
         const index = selectedOrders.indexOf(Number(event.target.parentElement.querySelector('.order_ornament_id').innerHTML));
@@ -208,7 +249,11 @@
             selectedOrders.splice(index, 1);
         }
         event.target.parentElement.parentElement.outerHTML = '';
-        setWeightFinalWeight();
+        if(selectedOrders.length > 0) {
+            document.querySelector('.save_ornaments').style.display = 'inline-block';
+        } else {
+            document.querySelector('.save_ornaments').style.display = 'none';
+        }
     }
 
     document.querySelectorAll('.progress').forEach(progress=>{
@@ -263,6 +308,18 @@
             return ornament.ornament_id == ornament_id;
         });
         return ornamentData[0];
+    }
+
+    function fillMainForm(event) {
+        event.preventDefault();
+        var total_weight = 0;
+        var total_final_amount = 0;
+        document.querySelectorAll('.order_selected').forEach(order_selected=>{
+            total_weight += Number(order_selected.querySelector('.ornament_weight').value) * Number(order_selected.querySelector('.ornament_quantity').value);
+            total_final_amount += Number(order_selected.querySelector('.ornament_weight').value) * Number(order_selected.querySelector('.ornament_quantity').value) * Number(order_selected.querySelector('.ornament_price_per_gram').value);
+        })
+        document.querySelector('.final_amount').value = total_final_amount;
+        document.querySelector('.weight').value = total_weight;
     }
 
     function getOrnamentName(ornament_id) {
