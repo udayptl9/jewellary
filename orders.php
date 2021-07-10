@@ -254,6 +254,10 @@
         } else {
             document.querySelector('.save_ornaments').style.display = 'none';
         }
+        if(selectedOrders.length == 0) {
+            document.querySelector('.weight').value = 0;
+            document.querySelector('.final_amount').value = 0;
+        }
     }
 
     document.querySelectorAll('.progress').forEach(progress=>{
