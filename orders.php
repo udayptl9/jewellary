@@ -459,7 +459,7 @@
                                                         <td>${order.delivery_date}</td>
                                                         <td>${getOrnamentName(order.ornament_id)}</td>
                                                         <td>${order.weight}</td>
-                                                        <td style='position: relative;' class='editable_tr'><div ${(Number(order.amount_paid) < Number(order.final_amount))?('style="color: red;"'):('')}>${order.amount_paid}</div><div class='edit_amount'>Edit</div></td>
+                                                        <td style='position: relative;' class='editable_tr'><div ${(Number(order.payment_amount) < Number(order.total_payment))?('style="color: red;"'):('')}>${order.payment_amount}</div></td>
                                                         <td>${order.final_amount}</td>
                                                         <td><div>${progressDiv}<div class='reference_id' style='display: none;'>${order.order_id}</div></div></td>
                                                         <td><button onclick='deleteOrder(event, "${order.order_id}")'>Delete</button></td>
@@ -492,7 +492,6 @@
             alert('Please Select atleast one ornament');
             return;
         }
-         console.log(ornament_ids);
         try {
             const progress_id = event.target.querySelector('.activeprogress').parentElement.querySelector('.progress_code').innerHTML,
                   ornament_id = ornament_ids;

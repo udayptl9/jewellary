@@ -3,7 +3,10 @@
     if(isset($_POST['action'])) {
         $action = $_POST['action'];
         if($action == 'getOrders') {
-            $sql = "SELECT * FROM orders";
+            $sql = "SELECT *
+                FROM orders
+                INNER JOIN payments
+                ON orders.order_key = payments.payment_of";
             $result = mysqli_query($conn, $sql);
             $response = '';
             $total = mysqli_num_rows($result);
