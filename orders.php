@@ -60,12 +60,69 @@
         cursor: pointer;
         display: none;
     }
+    .order_form_html {
+        display: none;
+    }
+    .showForm {
+        display: block !important;
+    }
 </style>
 <body>
+    <div class='print_data' style='display: none;'>
+        <div class='print_header' style='position: relative;'>
+            <h1 style='text-align: center;'>Jewellary Shop</h1>
+            <div>
+                <div style='position: absolute; right: 15px; top: 15px;'>
+                    #<span class='print_receipt_no'></span>
+                </div>
+                <table border="1" style="width: 100%; border-collapse: collapse; table-layout: fixed;">
+                    <tbody>
+                        <tr>
+                            <th>Customer Name</th>
+                            <td style='text-align: center;' class='print_customer_name'></td>
+                        </tr>
+                        <tr>
+                            <th>Delivery Date</th>
+                            <td style='text-align: center;' class='print_delivery_date'></td>
+                        </tr>
+                        <tr>
+                            <th>Items</th>
+                            <td style='text-align: center;' class='print_items'></td>
+                        </tr>
+                        <tr>
+                            <th>Current Progress</th>
+                            <td style='text-align: center;' class='print_progress'></td>
+                        </tr>
+                        <tr>
+                            <th>Final Amount</th>
+                            <td style='text-align: center;' class='print_final_amount'></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br>
+        <hr>
+        <h3 style='text-align: center;'>Payments</h3>
+        <div class='print_body'>
+            <table border="1" style='width: 100%; border-collapse: collapse;'>
+                <thead>
+                    <tr>
+                        <th>Sl. No.</th>
+                        <th>Paid On</th>
+                        <th>Amount Paid</th>
+                    </tr>
+                </thead>
+                <tbody class='print_payments'></tbody>
+            </table>
+            <div style='float: right; padding: 150px 5px 5px 5px;'>Sign</div>
+        </div>
+    </div>
     <div class='main'>
         <?php include('layouts/topbar.php'); ?>
         <div class='container'>
-            <div class="wrapper">
+            <div class="wrapper" style="width: 80%; max-width: 80%;">
+                <button onclick='showhideform(event)' style='float: right; margin: 0px 5px 5px 0px;'>Add Order</button>
                 <input type="text" class='order_search' placeholder='Search Orders Here...'>
                 <form class='order_form_html'>
                     <header>Orders</header>
@@ -148,7 +205,7 @@
                                         <th>Amount Paid</th>
                                         <th>Final Amount</th>
                                         <th>Progress</th>
-                                        <th>Action</th>
+                                        <th style='width: 120px;'>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody class='materials_body'>
@@ -199,6 +256,10 @@
                                 <label>Ornament Price Per Gram</label>
                                 <input type='number' value='${getMaterialObject(getOrnamentObject(Number(newValue)).material_id).price_per_gram}' disabled class='ornament_price_per_gram'>
                             </div>
+                            <div>
+                                <label>Ornament Stock</label>
+                                <input type='number' value='${getOrnamentObject(Number(newValue)).ornament_stock}' disabled class='ornament_price_per_gram'>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -218,12 +279,6 @@
         var input, filter, ul, li, a, i, txtValue;
         input = event.target;
         filter = input.value.toUpperCase();
-        if(filter.length > 0) {
-            console.log(filter)
-            document.querySelector('.order_form_html').style.display = 'none';
-        } else {
-            document.querySelector('.order_form_html').style.display = 'block';
-        }
         ul = document.querySelector(".materials_body");
         li = ul.getElementsByTagName("tr");
         for (i = 0; i < li.length; i++) {
@@ -253,6 +308,85 @@
             document.querySelector('.weight').value = 0;
             document.querySelector('.final_amount').value = 0;
         }
+    }
+
+    function showhideform(event) {
+        event.preventDefault();
+        document.querySelector('.order_form_html').classList.toggle('showForm');
+        return;
+    }
+
+    function download_pdf(event, id) {
+        event.preventDefault();
+        $.ajax({
+            url: 'actions/orders.php',
+            type: 'POST',
+            data: {
+                action: 'downloadPDF',
+                order_id: id
+            }, beforeSend: function() {
+                console.log('Downloading PDF');
+            }, success: function(response) {
+                try {
+                    const response_JSON = JSON.parse(response).data; 
+                    console.log(response_JSON)
+                    document.querySelector('.print_receipt_no').innerHTML = response_JSON[0].order_key;
+                    document.querySelector('.print_customer_name').innerHTML = response_JSON[0].customer_name;
+                    document.querySelector('.print_delivery_date').innerHTML = response_JSON[0].delivery_date;
+                    document.querySelector('.print_items').innerHTML = getOrnamentName(response_JSON[0].ornament_id);
+                    var print_progress = '';
+                    switch (response_JSON[0].progress) {
+                        case "0":
+                            print_progress = "Not Available"
+                            break;
+                        case "1":
+                            print_progress = "Processing"
+                            break;
+                        case "2":
+                            print_progress = "Ready, Not yet delivered"
+                            break;
+                        case "3":
+                            print_progress = "Delivered"
+                            break;
+                        default:
+                            print_progress = "Unknown"
+                            break;
+                    }
+                    document.querySelector('.print_progress').innerHTML = print_progress;
+                    document.querySelector('.print_final_amount').innerHTML = response_JSON[0].total_payment;
+                    document.querySelector('.print_payments').innerHTML = ``;
+                    var amount_paid = 0;
+                    response_JSON.map((payment, index)=>{
+                        document.querySelector('.print_payments').innerHTML += `
+                            <tr>
+                                <td style='text-align: center;'>${index+1}</td>
+                                <td style='text-align: center;'>${payment.payment_on}</td>
+                                <td style='text-align: center;'>${payment.payment_amount}</td>
+                            </tr>
+                        `;
+                        amount_paid += Number(payment.payment_amount)
+                    })
+                    document.querySelector('.print_payments').innerHTML += `
+                            <tr>
+                                <td style='text-align: center;'></td>
+                                <th style='text-align: center;'>Total Paid</th>
+                                <td style='text-align: center;'>${amount_paid}</td>
+                            </tr>
+                        `;
+                    var divContents = $(".print_data").html();
+                    var printWindow = window.open();
+                    printWindow.document.write('<html><head><title>Print PDF</title>');
+                    printWindow.document.write('</head><body >');
+                    printWindow.document.write(divContents);
+                    printWindow.document.write('</body></html>');
+                    printWindow.document.close();
+                    printWindow.print();
+                    window.close()
+                } catch (err) {
+                    console.log(err);
+                }
+            }
+        })
     }
 
     document.querySelectorAll('.progress').forEach(progress=>{
@@ -491,7 +625,7 @@
                     <td style='position: relative;' class='editable_tr'><div ${(Number(order.payment_amount) < Number(order.total_payment))?('style="color: red;"'):('')}>${order.payment_amount}</div></td>
                     <td>${order.final_amount}</td>
                     <td><div>${progressDiv}<div class='reference_id' style='display: none;'>${order.order_id}</div></div></td>
-                    <td><button onclick='deleteOrder(event, "${order.order_id}")'>Delete</button></td>
+                    <td><button style='background: green; margin-right: 5px; color: white; font-weight: bold; display: inline-block;' onclick='download_pdf(event, "${order.order_id}")'>Print</button><button style='background: red; color: white; font-weight: bold; display: inline-block;' onclick='deleteOrder(event, "${order.order_id}")'>Delete</button></td>
                 </tr>   
             `;
             index++;

@@ -34,6 +34,9 @@
                     <div class="inputField">
                         <input type="text" class="ornament_weight" placeholder='Ornament Weight ( in gram )'>
                     </div>
+                    <div class="inputField">
+                        <input type="text" class="ornament_quantity" placeholder='Ornament Stock'>
+                    </div>
                     <div>
                         <button type="submit">Add</button>
                     </div>
@@ -45,8 +48,9 @@
                             <thead>
                                 <tr>
                                     <th>Sl. No.</th>
-                                    <th>Ornament Name</th>
-                                    <th>Ornament Description</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Stock</th>
                                     <th>Material</th>
                                     <th>Weight (in gram)</th>
                                     <th>Action</th>
@@ -82,8 +86,19 @@
     }
 
     function updateOrnament(id, index) {
-        document.querySelector('.materials_body').querySelectorAll('tr')[index-1].querySelectorAll('td[class="editable"]').forEach(td=> {
-            td.innerHTML = `<input type='text' value=${td.innerHTML}>`;
+        const newStock = document.querySelector(`.editable_stock_${index}`).value;
+        $.ajax({
+            url: 'actions/ornaments.php',
+            type: 'POST',
+            data: {
+                action: 'updateOrnament',
+                ornament_id: id,
+                stock: newStock
+            }, beforeSend: function() {
+                console.log('Updating Data');
+            }, success: function(response) {
+                console.log(response);
+            }
         })
     }
 
@@ -136,8 +151,9 @@
                                                 <td>${index}</td>
                                                 <td>${ornament.ornament_name}</td>
                                                 <td>${ornament.ornament_description}</td>
+                                                <td><input style='width: 60px; text-align: center;' type='text' class='editable_stock_${index}' value='${ornament.ornament_stock}'></td>
                                                 <td>${getMaterialName(ornament.material_id)}</td>
-                                                <td class='editable'>${ornament.ornament_weight}</td>
+                                                <td>${ornament.ornament_weight}</td>
                                                 <td><button onclick='updateOrnament(${ornament.ornament_id}, ${index})'>Update</button> <button onclick='deleteOrnament(${ornament.ornament_id})'>Delete</button></td>
                                             </tr>
                                         `;
@@ -161,6 +177,7 @@
               ornament_description = event.target.querySelector('.ornament_description').value,
               ornament_weight = event.target.querySelector('.ornament_weight').value,
               material_id = event.target.querySelector('.material_id').value;
+              ornament_stock = event.target.querySelector('.ornament_quantity').value;
         $.ajax({
             url: 'actions/ornaments.php',
             type: 'POST',
@@ -170,6 +187,7 @@
                 ornament_description: ornament_description,
                 ornament_weight: ornament_weight,
                 material_id: material_id,
+                ornament_stock: ornament_stock,
             }, beforeSend: function() {
                 console.log('Adding Ornament');
             }, success: function(response, status) {

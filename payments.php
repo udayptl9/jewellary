@@ -32,7 +32,7 @@
                                     <th>Order ID</th>
                                     <th>Payment ID</th>
                                     <th>Amount Paid</th>
-                                    <th>Amount On</th>
+                                    <th>Paid On</th>
                                     <th>Final Amount</th>
                                     <th>Actions</th>
                                 </tr>
@@ -60,6 +60,7 @@
                 try {
                     const response_JSON = JSON.parse(response);
                     if(response_JSON.status) {
+                        response_JSON.data = response_JSON.data.reverse()
                         response_JSON.data.map((payment, index) => {
                             document.querySelector('.payments_body').innerHTML += `
                                 <tr>

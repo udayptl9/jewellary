@@ -100,7 +100,7 @@
                                         <td>${index}</td>
                                         <td>${material.material_name}</td>
                                         <td>${material.price_per_gram}</td>
-                                        <td><button onclick='deleteMaterial(${material.material_id})'>Update</button> <button onclick='deleteMaterial(${material.material_id})'>Delete</button></td>
+                                        <td><button onclick='deleteMaterial(${material.material_id})' disabled>Update</button> <button onclick='deleteMaterial(${material.material_id})'>Delete</button></td>
                                     </tr>
                                 `;  
                                 index++;

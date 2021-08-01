@@ -22,7 +22,8 @@
             $ornament_weight = $_POST['ornament_weight'];
             $ornament_description = $_POST['ornament_description'];
             $material_id = $_POST['material_id'];
-            $sql = "INSERT INTO `ornaments`(`material_id`, `ornament_name`, `ornament_description`, `ornament_weight`) VALUES ('$material_id','$ornament_name','$ornament_description', '$ornament_weight')";
+            $ornament_stock = $_POST['ornament_stock'];
+            $sql = "INSERT INTO `ornaments`(`material_id`, `ornament_name`, `ornament_description`, `ornament_weight`, `ornament_stock`) VALUES ('$material_id','$ornament_name','$ornament_description', '$ornament_weight', '$ornament_stock')";
             $result = mysqli_query($conn, $sql);
             $response = array('status'=> $result, 'data' => [$ornament_name, $ornament_weight], 'error' => mysqli_error($conn));
             print_r(json_encode($response));
@@ -31,6 +32,13 @@
             $sql = "DELETE FROM `ornaments` WHERE `ornament_id` = $id";
             $result = mysqli_query($conn, $sql);
             $response = array('status'=>$result, 'id'=>$id);
+            print_r(json_encode($response));
+        } else if($action == 'updateOrnament') {
+            $ornament_id = $_POST['ornament_id'];
+            $stock = $_POST['stock'];
+            $sql = "UPDATE `ornaments` SET `ornament_stock`='$stock' WHERE `ornament_id` = $ornament_id";
+            $result = mysqli_query($conn, $sql);
+            $response = array('status'=>$result, 'id'=>$ornament_id);
             print_r(json_encode($response));
         }
     }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 10, 2021 at 04:26 PM
+-- Generation Time: Aug 01, 2021 at 11:39 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -38,9 +38,8 @@ CREATE TABLE `materials` (
 --
 
 INSERT INTO `materials` (`material_id`, `material_name`, `price_per_gram`) VALUES
-(3, 'Gold', 10000),
-(5, 'Silver', 5000),
-(8, 'Copper', 4000);
+(13, 'Gold', 15000),
+(14, 'Silver', 8000);
 
 -- --------------------------------------------------------
 
@@ -66,7 +65,7 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `customer_name`, `ornament_id`, `weight`, `delivery_date`, `address`, `amount_paid`, `final_amount`, `progress`, `order_key`) VALUES
-(23, 'Test', '2 ', 12, '2021-07-11', 'test address', 5000, 120000, 1, '60e9ac3f4211c');
+(26, 'Laxmi', '9 11 ', 28, '2021-08-06', 'test desc', 150000, 308000, 1, '61066b777a0d4');
 
 -- --------------------------------------------------------
 
@@ -79,17 +78,17 @@ CREATE TABLE `ornaments` (
   `material_id` int(11) NOT NULL,
   `ornament_name` varchar(255) NOT NULL,
   `ornament_description` varchar(255) NOT NULL,
-  `ornament_weight` int(15) NOT NULL
+  `ornament_weight` int(15) NOT NULL,
+  `ornament_stock` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `ornaments`
 --
 
-INSERT INTO `ornaments` (`ornament_id`, `material_id`, `ornament_name`, `ornament_description`, `ornament_weight`) VALUES
-(2, 3, 'Ring', 'Best Ring of the Year 2021', 12),
-(5, 8, 'Copper Ring', 'desc', 5),
-(6, 5, 'Silver  Ring', 'siver ring desc', 4);
+INSERT INTO `ornaments` (`ornament_id`, `material_id`, `ornament_name`, `ornament_description`, `ornament_weight`, `ornament_stock`) VALUES
+(9, 13, 'Gold Ring', 'test desc', 12, '3'),
+(11, 14, 'Silver Ring', 'test desc', 8, '4');
 
 -- --------------------------------------------------------
 
@@ -110,9 +109,8 @@ CREATE TABLE `payments` (
 --
 
 INSERT INTO `payments` (`payment_id`, `payment_of`, `payment_amount`, `total_payment`, `payment_on`) VALUES
-(22, '60e9ac3f4211c', '5000', '120000', '10/07/2021'),
-(23, '60e9ac3f4211c', '1000', '120000', '10/07/2021'),
-(24, '60e9ac3f4211c', '4000', '120000', '10/07/2021');
+(34, '61066b777a0d4', '150000', '308000', '31/07/2021'),
+(35, '61066b777a0d4', '8200', '308000', '01/08/2021');
 
 --
 -- Indexes for dumped tables
@@ -150,25 +148,25 @@ ALTER TABLE `payments`
 -- AUTO_INCREMENT for table `materials`
 --
 ALTER TABLE `materials`
-  MODIFY `material_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `material_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `ornaments`
 --
 ALTER TABLE `ornaments`
-  MODIFY `ornament_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ornament_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
