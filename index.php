@@ -86,6 +86,7 @@
                     export: {
                         csv: {
                             headerValue: 'Date',
+                            headerCategory: 'Date',
                             filename: 'Payments_Data'
                         },
                         svg: {
@@ -94,7 +95,7 @@
                         png: {
                             filename: 'Payments_Data'
                         }
-                   }
+                    }
                 }
         },
         dataLabels: {
