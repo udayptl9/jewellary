@@ -145,7 +145,7 @@
                         <input type="date" class='delivery_date'>
                     </div>
                     <div class="inputField">
-                        <textarea class='address' cols="30" rows="10" placeholder='Ornament Address'></textarea>
+                        <textarea class='address' cols="30" rows="10" placeholder='Customer Address'></textarea>
                     </div>
                     <div class="inputField">
                         <input type="number" class="amount_paid" placeholder='Amount Paid'>

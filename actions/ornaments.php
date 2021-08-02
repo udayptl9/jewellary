@@ -40,6 +40,20 @@
             $result = mysqli_query($conn, $sql);
             $response = array('status'=>$result, 'id'=>$ornament_id);
             print_r(json_encode($response));
+        } else if($action == 'balanceOrderCount') {
+            $sqlPayment = "SELECT payment_of, payment_amount, total_payment FROM payments";
+            $sqlOrder = "SELECT * FROM orders WHERE `progress` <> '3'";
+            $resultPayment = mysqli_query($conn, $sqlPayment);
+            $total = mysqli_num_rows($resultPayment);
+            $data = [];
+            if($total > 0) {
+                while($row = mysqli_fetch_array($resultPayment)) {
+                    array_push($data, $row);
+                }
+            }
+            $resultOrder = mysqli_query($conn, $sqlOrder);
+            $response = array('status'=>$resultPayment, 'payments'=>$data, 'orderCount'=>mysqli_num_rows($resultOrder));
+            print_r(json_encode($response));
         }
     }
 ?>
