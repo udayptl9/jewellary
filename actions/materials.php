@@ -30,6 +30,13 @@
             $result = mysqli_query($conn, $sql);
             $response = array('status'=>$result, 'id'=>$id);
             print_r(json_encode($response));
+        } else if($action == 'updateMaterial') {
+            $id = $_POST['id'];
+            $price_per_gram = $_POST['price_per_gram'];
+            $sql = "UPDATE `materials` SET `price_per_gram`='$price_per_gram' WHERE `material_id` = $id";
+            $result = mysqli_query($conn, $sql);
+            $response = array('status'=>$result, 'id'=>$id);
+            print_r(json_encode($response));
         }
     }
 ?>

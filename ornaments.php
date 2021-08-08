@@ -79,7 +79,14 @@
             }, beforeSend: function() {
                 console.log('Deleteing Ornament');
             }, success: function(response) {
-                console.log(response);
+                try {
+                    if(JSON.parse(response).status) {
+                        window.location.reload();
+                    }
+                } catch (err) {
+                    console.log(err);
+                    console.log(response);
+                }
             }
 
         })
@@ -97,7 +104,14 @@
             }, beforeSend: function() {
                 console.log('Updating Data');
             }, success: function(response) {
-                console.log(response);
+                try {
+                    if(JSON.parse(response).status) {
+                        window.location.reload();
+                    }
+                } catch (err) {
+                    console.log(err);
+                    console.log(response);
+                }
             }
         })
     }
@@ -191,7 +205,14 @@
             }, beforeSend: function() {
                 console.log('Adding Ornament');
             }, success: function(response, status) {
-                console.log(status, response);
+                try {
+                    if(JSON.parse(response).status) {
+                        window.location.reload();
+                    }
+                } catch (err) {
+                    console.log(err);
+                    console.log(response);
+                }
             }
         })
     })

@@ -30,7 +30,8 @@
             $payment_on = date('d/m/Y');
             $sql = "INSERT INTO `payments`(`payment_of`, `payment_amount`, `total_payment`, `payment_on`) VALUES ('$id' ,'$amount_paid','$final_payment' ,'$payment_on')";
             $result = mysqli_query($conn, $sql);
-            $response = array('status'=> $result);
+            $response = json_encode(array('status'=> $result));
+            print_r($response);
         }
     }
 ?>

@@ -74,7 +74,36 @@
             }, beforeSend: function() {
                 console.log('Deleteing Material');
             }, success: function(response) {
-                console.log(response);
+                try {
+                    if(JSON.parse(response).status) {
+                        window.location.reload();
+                    }
+                } catch (err) {
+                    console.log(err, response);
+                }
+            }
+
+        })
+    }
+
+    function updateMaterial(id, index) {
+        $.ajax({
+            url: 'actions/materials.php',
+            type: 'POST',
+            data: {
+                action: 'updateMaterial',
+                id: id,
+                price_per_gram: document.querySelector(`.price_per_gram_${index}`).value,
+            }, beforeSend: function() {
+                console.log('Updating Material');
+            }, success: function(response) {
+                try {
+                    if(JSON.parse(response).status) {
+                        window.location.reload();
+                    }
+                } catch (err) {
+                    console.log(err, response);
+                }
             }
 
         })
@@ -99,8 +128,8 @@
                                     <tr>
                                         <td>${index}</td>
                                         <td>${material.material_name}</td>
-                                        <td>${material.price_per_gram}</td>
-                                        <td><button onclick='deleteMaterial(${material.material_id})' disabled>Update</button> <button onclick='deleteMaterial(${material.material_id})'>Delete</button></td>
+                                        <td style='padding: 2px;'><input style='width: 100%; text-align: center; padding: 5px;' value='${material.price_per_gram}' class='price_per_gram_${index}'></td>
+                                        <td><button onclick='updateMaterial(${material.material_id}, ${index})'>Update</button> <button onclick='deleteMaterial(${material.material_id})'>Delete</button></td>
                                     </tr>
                                 `;  
                                 index++;
@@ -129,7 +158,14 @@
             }, beforeSend: function() {
                 console.log('Adding Material');
             }, success: function(response, status) {
-                console.log(response);
+                try {
+                    if(JSON.parse(response).status) {
+                        window.location.reload();
+                    }
+                } catch (err) {
+                    console.log(err);
+                    console.log(response);
+                }
             }
         })
     })

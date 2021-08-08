@@ -49,7 +49,7 @@
             $progress_id = $_POST['progress_id'];
             $sql = "UPDATE `orders` SET `progress`='$progress_id' WHERE `order_id` = $order_id";
             $response = mysqli_query($conn, $sql);
-            print_r(json_encode(array('response'=>$response, 'data'=>$order_id.$progress_id)));
+            print_r(json_encode(array('status'=>$response, 'data'=>$order_id.$progress_id)));
         } else if($action == 'downloadPDF') {
             $order_id = $_POST['order_id'];
             $sql = "SELECT *

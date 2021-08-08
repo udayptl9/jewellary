@@ -410,7 +410,14 @@
             }, beforeSend: function() {
                 console.log('Deleteing Order');
             }, success: function(response) {
-                console.log(response);
+                try {
+                    if(JSON.parse(response).status) {
+                        window.location.reload();
+                    }
+                } catch (err) {
+                    console.log(err);
+                    console.log(response);
+                }
             }
 
         })
@@ -493,7 +500,14 @@
             }, beforeSend: function() {
                 console.log('Updating Progress');
             }, success: function(response) {
-                console.log(response);
+                try {
+                    if(JSON.parse(response).status) {
+                        window.location.reload();
+                    }
+                } catch (err) {
+                    console.log(err);
+                    console.log(response);
+                }
             }
         })
     }
@@ -668,7 +682,14 @@
                     }, beforeSend: function() {
                         console.log('Adding Order');
                     }, success: function(response, status) {
-                        console.log(status, response);
+                        try {
+                            if(JSON.parse(response).status) {
+                                window.location.reload();
+                            }
+                        } catch (err) {
+                            console.log(err);
+                            console.log(response);
+                        }
                     }
                 })
         } catch (error) {

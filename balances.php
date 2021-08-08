@@ -192,7 +192,14 @@
                 }, beforeSend: function() {
                     console.log('Paying');
                 }, success: function(response) {
-                    console.log(response);
+                    try {
+                        if(JSON.parse(response).status) {
+                            window.location.reload();
+                        }
+                    } catch (err) {
+                        console.log(err);
+                        console.log(response);
+                    }
                 }, error: function(err) {
                     console.log(err)
                 }
