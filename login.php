@@ -31,10 +31,10 @@
                 <form class='materials_add_form_html'>
                     <header>Login</header>
                     <div class="inputField">
-                        <input type="text" class='username' placeholder='Username'>
+                        <input type="text" class='username' placeholder='Username' required>
                     </div>
                     <div class="inputField">
-                        <input type="password" class='password' placeholder='Password'>
+                        <input type="password" class='password' placeholder='Password' required>
                     </div>
                     <div>
                         <button type="submit">Login</button> <a href="forgot_password.php">Forgot Password</a>

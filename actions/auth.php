@@ -34,18 +34,30 @@
                 } else {
                     print_r(json_encode(array('response'=>false)));
                 }
-                $response = array('status' => true, 'results' => $total, 'data' => $data);
             } else {
-                $response = array('status' => true, 'results' => 0, 'data' => []);
+                $response = json_encode(array('response' => false));
+                print_r($response);
             }
             
         } else if($action == "resetPassword") {
             $username = $_POST['username'];
             $password = $_POST['password'];
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            $sql = "UPDATE `users` SET `password`='$hashed_password' WHERE `username` = '$username'";
+            $sql = "SELECT * FROM users WHERE `username` = '$username'";
             $result = mysqli_query($conn, $sql);
-            print_r(json_encode(array('status'=>$result)));
+            $total = mysqli_num_rows($result);
+            if($total <= 0) {
+                $data = [];
+                while($row = mysqli_fetch_array($result)) {
+                    array_push($data, $row);
+                }
+                $response = json_encode(array('status' => false, "No user found with username: $username"));
+                print_r($response);
+            } else {
+                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                $sql = "UPDATE `users` SET `password`='$hashed_password' WHERE `username` = '$username'";
+                $result = mysqli_query($conn, $sql);
+                print_r(json_encode(array('status'=>$result)));
+            }
         }
     }
 ?>

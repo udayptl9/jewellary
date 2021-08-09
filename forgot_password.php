@@ -31,10 +31,10 @@
                 <form class='materials_add_form_html'>
                     <header>Forgot Password</header>
                     <div class="inputField">
-                        <input type="text" class='username' placeholder='Username'>
+                        <input type="text" class='username' placeholder='Username' required>
                     </div>
                     <div class="inputField">
-                        <input type="password" class='password' placeholder='Password'>
+                        <input type="password" class='password' placeholder='New Password' required>
                     </div>
                     <div>
                         <button type="submit">Reset Password</button>
@@ -65,10 +65,13 @@
                     if(data) {
                         window.location.href = './login.php'
                     } else {
-                        alert("Reset Password Failed");
+                        alert("User doesnot exists with this username");
+                        document.querySelector('.materials_add_form_html').reset();
                     }
                 } catch (err) {
                     console.log("Please try again later");
+                        document.querySelector('.materials_add_form_html').reset();
+
                 }
             }
         })

@@ -28,10 +28,10 @@
                 <form class='materials_add_form_html'>
                     <header>Register</header>
                     <div class="inputField">
-                        <input type="text" class='username' placeholder='Username'>
+                        <input type="text" class='username' placeholder='Username' requried>
                     </div>
                     <div class="inputField">
-                        <input type="password" class='password' placeholder='Password'>
+                        <input type="password" class='password' placeholder='Password' requried>
                     </div>
                     <div>
                         <button type="submit">Register</button>
