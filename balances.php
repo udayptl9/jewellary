@@ -181,6 +181,10 @@
             event.preventDefault();
             console.log(id)
             const amount_paid = document.querySelector('.new_payment_amount_'+delete_no).value;
+            if(amount_paid <= 0 || amount_paid == "") {
+                alert("Amount should be greater than 0");
+                return;
+            }
             $.ajax({
                 url: 'actions/payments.php',
                 type: 'POST',

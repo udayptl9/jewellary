@@ -123,7 +123,7 @@
         <div class='container'>
             <div class="wrapper" style="width: 80%; max-width: 80%;">
                 <button onclick='showhideform(event)' style='float: right; margin: 0px 5px 5px 0px;'>Add Order</button>
-                <input type="text" class='order_search' placeholder='Search Orders Here...'>
+                <input required type="text" class='order_search' placeholder='Search Orders Here...'>
                 <form class='order_form_html'>
                     <header>Orders</header>
                     <div class="inputField">
@@ -136,22 +136,22 @@
                         <div class='save_ornaments' onclick='fillMainForm(event)'>Save</div>
                     </div>
                     <div class="inputField">
-                        <input type="text" class='customer_name' placeholder='Customer Name'>
+                        <input required type="text" class='customer_name' placeholder='Customer Name'>
                     </div>
                     <div class="inputField">
-                        <input type="number" class='weight' placeholder='Total Weight ( in gram )'>
+                        <input required type="number" step="0.01" class='weight' placeholder='Total Weight ( in gram )'>
                     </div>
                     <div class="inputField">
-                        <input type="date" class='delivery_date'>
+                        <input required type="date" class='delivery_date'>
                     </div>
                     <div class="inputField">
                         <textarea class='address' cols="30" rows="10" placeholder='Customer Address'></textarea>
                     </div>
                     <div class="inputField">
-                        <input type="number" class="amount_paid" placeholder='Amount Paid'>
+                        <input required type="number" step="0.01" class="amount_paid" placeholder='Amount Paid'>
                     </div>
                     <div class="inputField">
-                        <input type="number" class="final_amount" placeholder='Final Amount'>
+                        <input required type="number" step="0.01" class="final_amount" placeholder='Final Amount'>
                     </div>
                     <div class="inputField">
                         <div class='progressDiv'>
@@ -242,23 +242,23 @@
                         <form method='POST'>
                             <div>
                                 <label>Ornament Name</label>
-                                <input type='text' value='${getOrnamentName(Number(newValue))}' disabled>
+                                <input required type='text' value='${getOrnamentName(Number(newValue))}' disabled>
                             </div>
                             <div>
                                 <label>Ornament Weight</label>
-                                <input type='number' value='${getOrnamentObject(Number(newValue)).ornament_weight}' class='ornament_weight'>
+                                <input required type='number' value='${getOrnamentObject(Number(newValue)).ornament_weight}' class='ornament_weight'>
                             </div>
                             <div>
                                 <label>Ornament Quantity</label>
-                                <input type='number' value='1' class='ornament_quantity'>
+                                <input required type='number' value='1' class='ornament_quantity ornament_quantity_${newValue}'>
                             </div>
                             <div>
                                 <label>Ornament Price Per Gram</label>
-                                <input type='number' value='${getMaterialObject(getOrnamentObject(Number(newValue)).material_id).price_per_gram}' disabled class='ornament_price_per_gram'>
+                                <input required type='number' value='${getMaterialObject(getOrnamentObject(Number(newValue)).material_id).price_per_gram}' disabled class='ornament_price_per_gram'>
                             </div>
                             <div>
                                 <label>Ornament Stock</label>
-                                <input type='number' value='${getOrnamentObject(Number(newValue)).ornament_stock}' disabled class='ornament_price_per_gram'>
+                                <input required type='number' value='${getOrnamentObject(Number(newValue)).ornament_stock}' disabled class='ornament_stock ornament_stock_${newValue}'>
                             </div>
                         </form>
                     </div>
@@ -425,7 +425,7 @@
 
     function updateOrnament(id, index) {
         document.querySelector('.materials_body').querySelectorAll('tr')[index-1].querySelectorAll('td[class="editable"]').forEach(td=> {
-            td.innerHTML = `<input type='text' value=${td.innerHTML}>`;
+            td.innerHTML = `<input required type='text' value=${td.innerHTML}>`;
         })
     }
 
@@ -458,7 +458,7 @@
             total_weight += Number(order_selected.querySelector('.ornament_weight').value) * Number(order_selected.querySelector('.ornament_quantity').value);
             total_final_amount += Number(order_selected.querySelector('.ornament_weight').value) * Number(order_selected.querySelector('.ornament_quantity').value) * Number(order_selected.querySelector('.ornament_price_per_gram').value);
         })
-        document.querySelector('.final_amount').value = total_final_amount;
+        document.querySelector('.final_amount').value = Number(total_final_amount).toFixed(2);
         document.querySelector('.weight').value = total_weight;
     }
 
@@ -653,9 +653,14 @@
         document.querySelectorAll('.order_ornament_id').forEach(id=>{
             ornament_ids += `${Number(id.innerHTML)} `;
         })
+        var stockDict = [];
         if(ornament_ids.length == 0) {
             alert('Please Select atleast one ornament');
             return;
+        } else {
+            selectedOrders.map(ornament=>{
+                stockDict.push({'ornament_id': ornament, 'stock_ordered': Number(document.querySelector(`.ornament_stock_${ornament}`).value) - Number(document.querySelector(`.ornament_quantity_${ornament}`).value) >= 0 ? Number(document.querySelector(`.ornament_stock_${ornament}`).value) - Number(document.querySelector(`.ornament_quantity_${ornament}`).value) : 0});
+            })
         }
         try {
             const progress_id = event.target.querySelector('.activeprogress').parentElement.querySelector('.progress_code').innerHTML,
@@ -684,6 +689,21 @@
                     }, success: function(response, status) {
                         try {
                             if(JSON.parse(response).status) {
+                                stockDict.map(stock=>{
+                                    $.ajax({
+                                        url: 'actions/ornaments.php',
+                                        type: 'POST',
+                                        data: {
+                                            action: 'updateOrnament',
+                                            ornament_id: stock.ornament_id,
+                                            stock: stock.stock_ordered
+                                        }, beforeSend: function() {
+                                            console.log('Updating Ornament: ', stock.ornament_id);
+                                        }, success: function(response) {
+                                            console.log('Updated Ornament: ', stock.ornament_id);
+                                        }
+                                    })
+                                })
                                 window.location.reload();
                             }
                         } catch (err) {

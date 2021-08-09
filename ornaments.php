@@ -26,16 +26,16 @@
                         <select class='material_id'></select>
                     </div>
                     <div class="inputField">
-                        <input type="text" class='ornament_name' placeholder='Ornament Name'>
+                        <input type="text" class='ornament_name' placeholder='Ornament Name' required>
                     </div>
                     <div class="inputField">
-                        <textarea class='ornament_description' cols="30" rows="10" placeholder='Ornament Description'></textarea>
+                        <textarea class='ornament_description' cols="30" rows="10" placeholder='Ornament Description' required></textarea>
                     </div>
                     <div class="inputField">
-                        <input type="text" class="ornament_weight" placeholder='Ornament Weight ( in gram )'>
+                        <input type="text" class="ornament_weight" placeholder='Ornament Weight ( in gram )' required step="0.01">
                     </div>
                     <div class="inputField">
-                        <input type="text" class="ornament_quantity" placeholder='Ornament Stock'>
+                        <input type="text" class="ornament_quantity" placeholder='Ornament Stock' required step="0.01">
                     </div>
                     <div>
                         <button type="submit">Add</button>

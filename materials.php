@@ -23,10 +23,10 @@
                 <form class='materials_add_form_html'>
                     <header>Materials</header>
                     <div class="inputField">
-                        <input type="text" class='material_name' placeholder='Material Name'>
+                        <input required type="text" class='material_name' placeholder='Material Name'>
                     </div>
                     <div class="inputField">
-                        <input type="number" class='material_price_per_gram' placeholder='Material Price Per Gram'>
+                        <input required step="0.01" type="number" class='material_price_per_gram' placeholder='Material Price Per Gram'>
                     </div>
                     <div>
                         <button type="submit">Add</button>
@@ -52,18 +52,10 @@
                     </div>
             </div>  
         </div>
-        <div class='navbar'>
-            <nav>
-                <ul>
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="materials.php">Materials</a></li>
-                    <li><a href="ornaments.php">Ornaments</a></li>
-                </ul>
-            </nav>
-        </div>
     </div>
 </body>
 <script>
+    // delete material
     function deleteMaterial(id) {
         $.ajax({
             url: 'actions/materials.php',
@@ -86,6 +78,7 @@
         })
     }
 
+    // updare material
     function updateMaterial(id, index) {
         $.ajax({
             url: 'actions/materials.php',
@@ -115,7 +108,7 @@
         data: {
             action: 'getMaterials'
         }, beforeSend: function() {
-            console.log("Getting Materials");
+           console.log("Getting Materials");
         }, success: function(response, status) {
             if(status == 'success') {
                 if(status == 'success') {
