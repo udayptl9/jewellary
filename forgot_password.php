@@ -36,6 +36,9 @@
                     <div class="inputField">
                         <input type="password" class='password' placeholder='New Password' required>
                     </div>
+                    <div class="inputField">
+                        <input type="password" class='password1' placeholder='Confirm Password' required>
+                    </div>
                     <div>
                         <button type="submit">Reset Password</button>
                     </div>
@@ -48,7 +51,12 @@
     document.querySelector('.materials_add_form_html').addEventListener('submit', (event)=>{
         event.preventDefault();
         const username = document.querySelector('.username').value,
-              password = document.querySelector('.password').value;
+              password = document.querySelector('.password').value,
+              password1 = document.querySelector('.password1').value;
+        if(password != password1) {
+            alert("Passwords does not match");
+            return;
+        }
         $.ajax({
             url: 'actions/auth.php',
             type: 'POST',
