@@ -39,6 +39,13 @@
                 $response = array('status' => true, 'results' => 0, 'data' => []);
             }
             
+        } else if($action == "resetPassword") {
+            $username = $_POST['username'];
+            $password = $_POST['password'];
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            $sql = "UPDATE `users` SET `password`='$hashed_password' WHERE `username` = '$username'";
+            $result = mysqli_query($conn, $sql);
+            print_r(json_encode(array('status'=>$result)));
         }
     }
 ?>

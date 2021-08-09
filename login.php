@@ -37,7 +37,7 @@
                         <input type="password" class='password' placeholder='Password'>
                     </div>
                     <div>
-                        <button type="submit">Login</button>
+                        <button type="submit">Login</button> <a href="forgot_password.php">Forgot Password</a>
                     </div>
                 </form>
             </div>

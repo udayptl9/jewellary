@@ -11,5 +11,6 @@
   <a href="orders.php">Orders</a>
   <a href="payments.php">Payments</a>
   <a href="balances.php">Balances</a>
+  <a href="register.php">Add User</a>
   <a href="logout.php">Logout</a>
 </div>
