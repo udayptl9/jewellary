@@ -124,7 +124,7 @@
                     <td>${payment.payment_id}</td>
                     <td>${Number(payment.total_payment) - Number(payment.payment_amount)}</td>
                     <td>${payment.total_payment}</td>
-                    <td style='position: relative;'><button style='border: 0; background: blue; color: white; border-radius: 5px; font-weight: bold; cursor: pointer; position: relative;' onclick="smallDeletePopUp.render(event, '${payment.total_payment}', '${payment.payment_of}', '${payment.payment_amount}', '${payment.total_payment}')">Pay</button></td>
+                    <td style='position: relative;'><button style='border: 0; background: blue; color: white; border-radius: 5px; font-weight: bold; cursor: pointer; position: relative;' onclick="smallDeletePopUp.render(event, '${payment.total_payment}', '${payment.payment_of}', '${payment.payment_amount}', '${payment.total_payment}', '${Number(payment.total_payment) - Number(payment.payment_amount)}')">Pay</button></td>
                 </tr>
             `;
             index++;
@@ -133,7 +133,7 @@
 
     var delete_no = 0;
     function smallCustomPopup() {
-        this.render = function (event, final_amount, payment_of, total_payment, final_payment) {
+        this.render = function (event, final_amount, payment_of, total_payment, final_payment, balance_amount) {
             event.stopPropagation();
             event.target.parentElement.innerHTML += `
                 <div class="download_options delete_no_${delete_no}">
@@ -165,7 +165,7 @@
                                 </div>
                             </form>
                             <div class='delete_options' style='text-align: center; margin: 10px auto;'>
-                                <button class='btn btn-danger' onclick="smallDeletePopUp.pay(event, '${delete_no}','${payment_of}', '${total_payment}', '${final_payment}')">Pay</button>
+                                <button class='btn btn-danger' onclick="smallDeletePopUp.pay(event, '${delete_no}','${payment_of}', '${total_payment}', '${final_payment}', '${balance_amount}')">Pay</button>
                                 <button class='btn btn-default' onclick="smallDeletePopUp.no(event, '${delete_no}')">No</button>
                             </div>
                         </div>
@@ -177,12 +177,16 @@
             `;
             delete_no++;
         };
-        this.pay = function (event, delete_no, id, total_payment, final_payment) {
+        this.pay = function (event, delete_no, id, total_payment, final_payment, balance_amount) {
             event.preventDefault();
             console.log(id)
             const amount_paid = document.querySelector('.new_payment_amount_'+delete_no).value;
             if(amount_paid <= 0 || amount_paid == "") {
                 alert("Amount should be greater than 0");
+                return;
+            }
+            if(Number(amount_paid) > balance_amount) {
+                alert("Entered amount cant be greater than balance amount");
                 return;
             }
             $.ajax({
