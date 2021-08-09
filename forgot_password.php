@@ -40,7 +40,7 @@
                         <input type="password" class='password1' placeholder='Confirm Password' required>
                     </div>
                     <div>
-                        <button type="submit">Reset Password</button>
+                        <button type="submit">Reset Password</button>   <a href="login.php">Login</a>
                     </div>
                 </form>
             </div>
